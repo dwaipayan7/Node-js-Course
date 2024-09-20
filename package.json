@@ -13,6 +13,6 @@
     "express": "^4.21.0",
     "lodash": "^4.17.21",
     "node-js-course": "file:",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.6"
   }
 }
