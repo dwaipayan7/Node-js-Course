@@ -10,11 +10,18 @@ app.get("/tatay", function (req, res) {
   res.send("Dwaipayan ");
 });
 
+app.post('/items', (req, res) =>{
+
+  res.send("Data is Saved");
+
+});
+
 app.get("/idli", (req, res) => {
   var customised_idli = {
     name: "rava idli",
     size: "10 CM",
     is_Sambar: true,
+    is_chutney: false
   };
 
   res.send(customised_idli);
