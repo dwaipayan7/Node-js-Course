@@ -5,63 +5,71 @@ const app = express();
 const db = require("./db");
 
 const bodyParser = require('body-parser');
-app.use(bodyParser.json());  //req.body
+app.use(bodyParser.json()); // Parse JSON body
 
 const Person = require('./models/Person');
+const MenuItem = require('./models/MenuItem');
 
-
-
+// Root route
 app.get("/", function (req, res) {
   res.send("Welcome to my Hotel");
 });
 
-app.post('/person', (req, res)=>{
+// POST /person (Add a new person)
+app.post('/person', async (req, res) => {
+  try {
+    const data = req.body;
+    const newPerson = new Person(data);
 
-  const data = res.body;
-
-  const newPerson = new Person(data); //prefilled with database
-
-  newPerson.sava((error, savedPerson) =>{
-    if (error) {
-      console.log('Error Saving Person', error);
-      res.status(500).json({error: 'Internal server Error'});
-
-    }else{
-      console.log("Data saved Successfully");
-      res.status(200).json(savedPerson);
-    }
-  });
-
-  // newPerson.name = data.name;
-  // newPerson.age = data.age;
-  // newPerson.mobile = data.mobile;
-  // newPerson.email = data.email;
-  // newPerson.address = data.address;
-
-
+    const response = await newPerson.save();
+    console.log('Person saved');
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
-// app.get("/tatay", function (req, res) {
-//   res.send("Dwaipayan ");
-// });
+// POST /menuitem (Add a new menu item)
+app.post('/menuitem', async (req, res) => {
+  try {
+    const data = req.body;
+    const newMenuItem = new MenuItem(data);
 
-// app.post('/items', (req, res) =>{
+    const response = await newMenuItem.save();
+    console.log("Menu item saved");
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
-//   res.send("Data is Saved");
+// GET /menuitems (Fetch all menu items)
+app.get('/menuitem', async (req, res) => {
+  try {
+    const data = await MenuItem.find();
+    console.log("Menu items fetched");
+    res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
-// });
+// GET /person (Fetch all persons)
+app.get('/person', async (req, res) => {
+  try {
+    const data = await Person.find();
+    console.log('Persons fetched');
+    res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
-// app.get("/idli", (req, res) => {
-//   var customised_idli = {
-//     name: "rava idli",
-//     size: "10 CM",
-//     is_Sambar: true,
-//     is_chutney: false
-//   };
-
-//   res.send(customised_idli);
-// });
-
+// Listen on port 3000
 app.listen(3000, () => {
-  console.log("Server is listening in 3000 ");
+  console.log("Server is listening on port 3000");
 });
