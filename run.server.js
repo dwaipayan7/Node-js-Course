@@ -69,6 +69,27 @@ app.get('/person', async (req, res) => {
   }
 });
 
+app.get('/person/:workType',async(req, res) =>{
+  try {
+    const workType = req.params.workType;
+
+    if (workType == 'chef' || workType == 'manager' || workType == 'waiter') {
+      
+      const response = await Person.find({work: workType});
+
+      console.log("response fetched");
+
+      res.status(300).json(response);
+    }else{
+      res.status(404).json({error: 'Invalid work type'});
+    }
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({error: 'Internal Server Error'});
+  }
+})
+
 // Listen on port 3000
 app.listen(3000, () => {
   console.log("Server is listening on port 3000");
