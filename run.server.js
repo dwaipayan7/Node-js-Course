@@ -15,20 +15,6 @@ app.get("/", function (req, res) {
   res.send("Welcome to my Hotel");
 });
 
-// POST /person (Add a new person)
-app.post('/person', async (req, res) => {
-  try {
-    const data = req.body;
-    const newPerson = new Person(data);
-
-    const response = await newPerson.save();
-    console.log('Person saved');
-    res.status(200).json(response);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
 
 // POST /menuitem (Add a new menu item)
 app.post('/menuitem', async (req, res) => {
@@ -57,38 +43,10 @@ app.get('/menuitem', async (req, res) => {
   }
 });
 
-// GET /person (Fetch all persons)
-app.get('/person', async (req, res) => {
-  try {
-    const data = await Person.find();
-    console.log('Persons fetched');
-    res.status(200).json(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
 
-app.get('/person/:workType',async(req, res) =>{
-  try {
-    const workType = req.params.workType;
+const personRoutes = require('./routes/person.routes.js');
+app.use('/', personRoutes);
 
-    if (workType == 'chef' || workType == 'manager' || workType == 'waiter') {
-      
-      const response = await Person.find({work: workType});
-
-      console.log("response fetched");
-
-      res.status(300).json(response);
-    }else{
-      res.status(404).json({error: 'Invalid work type'});
-    }
-
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({error: 'Internal Server Error'});
-  }
-})
 
 // Listen on port 3000
 app.listen(3000, () => {
