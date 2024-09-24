@@ -69,3 +69,5 @@ var data = ["person", "person", 1, 2, 3, 4, 1];
 
 var filter = _.uniq(data);
 console.log(filter);
+
+

@@ -9,6 +9,7 @@ router.post('/person', async (req, res) => {
       const newPerson = new Person(data);
   
       const response = await newPerson.save();
+
       console.log('Person saved');
       res.status(200).json(response);
     } catch (error) {
@@ -52,6 +53,37 @@ router.post('/person', async (req, res) => {
       res.status(500).json({error: 'Internal Server Error'});
     }
   });
+
+
+  router.put('/person/:id', async (req, res) =>{
+
+    try {
+
+      const personId = req.params.id;
+      const updatePersonData = req.body;
+
+      const response = await Person.findByIdAndUpdate(personId, updatePersonData,{
+        new: true,
+        runValidators: true
+      });
+
+
+      if (!response) {
+        return res.status(400).json({error:'Person Not Found'});
+      }
+
+
+      console.log('Data Updated');
+      res.status(200).json(response);
+      
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({error: 'Invalid Updation'});
+    }
+
+  });
+
+
 
 
   module.exports = router;
