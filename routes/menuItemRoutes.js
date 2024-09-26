@@ -17,7 +17,7 @@ router.post('/menuitems', async (req, res) => {
   }
 });
 
-// GET /menuitems (Fetch all menu items)
+// GET /menuitems
 router.get('/menuitems', async (req, res) => {
   try {
     const data = await MenuItem.find();
