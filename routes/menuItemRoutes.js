@@ -3,7 +3,7 @@ const router = express.Router();
 const MenuItem = require('./../models/MenuItem');
 
 // POST /menuitems (Add a new menu item)
-router.post('/menuitems', async (req, res) => {
+router.post('/', async (req, res) => { //menuitems
   try {
     const data = req.body;
     const newMenuItem = new MenuItem(data);
@@ -18,7 +18,7 @@ router.post('/menuitems', async (req, res) => {
 });
 
 // GET /menuitems
-router.get('/menuitems', async (req, res) => {
+router.get('/', async (req, res) => { //menuitems
   try {
     const data = await MenuItem.find();
     console.log("Menu items fetched");

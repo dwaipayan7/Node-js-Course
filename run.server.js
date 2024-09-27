@@ -27,10 +27,10 @@ app.get('/',  function (req, res) {
 
 // Menu item routes (handling menu-related endpoints)
 const menuItem = require('./routes/menuItemRoutes.js');
-app.use('/', localAuthMiddleware, menuItem); 
+app.use('/menuitems', localAuthMiddleware, menuItem); 
 
 const personRoutes = require('./routes/person.routes.js');
-app.use('/', personRoutes); 
+app.use('/person',localAuthMiddleware, personRoutes); 
 
 // Listen on port 3000
 app.listen(3000, () => {

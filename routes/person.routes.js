@@ -3,7 +3,7 @@ const router = express.Router();
 const Person = require('./../models/Person');
 
 // POST /person (Add a new person)
-router.post('/person', async (req, res) => {
+router.post('/', async (req, res) => { //person
     try {
       const data = req.body;
       const newPerson = new Person(data);
@@ -20,7 +20,7 @@ router.post('/person', async (req, res) => {
   
 
   // GET /person (Fetch all persons)
-  router.get('/person', async (req, res) => {
+  router.get('/', async (req, res) => { //person
     try {
       const data = await Person.find();
       console.log('Persons fetched');
