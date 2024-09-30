@@ -21,13 +21,13 @@ app.use(passport.initialize());
 
 const localAuthMiddleware = passport.authenticate('local', {session: false});
 
-app.get('/',  function (req, res) {
+app.get('/',localAuthMiddleware,  function (req, res) {
   res.send("Welcome to my Hotel");
 });
 
 // Menu item routes (handling menu-related endpoints)
 const menuItem = require('./routes/menuItemRoutes.js');
-app.use('/menuitems', localAuthMiddleware, menuItem); 
+app.use('/menuitems',localAuthMiddleware, menuItem); 
 
 const personRoutes = require('./routes/person.routes.js');
 app.use('/person',localAuthMiddleware, personRoutes); 

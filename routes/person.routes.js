@@ -33,7 +33,7 @@ router.post('/', async (req, res) => { //person
 
 
 
-  router.get('/person/:workType',async(req, res) =>{
+  router.get('/:workType',async(req, res) =>{
     try {
       const workType = req.params.workType;
   

@@ -30,7 +30,7 @@ router.get('/', async (req, res) => { //menuitems
 });
 
 // GET /menuitems/:taste (Fetch menu items by taste)
-router.get('/menuitems/:taste', async (req, res) => {
+router.get('/:taste', async (req, res) => {
   try {
     const taste = req.params.taste;
 

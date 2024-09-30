@@ -21,4 +21,4 @@ passport.use(new LocalStrategy(async (username, password, done) => {
     }
 }));
 
-module.exports = passport; // Export configured passport
+module.exports = passport; 
