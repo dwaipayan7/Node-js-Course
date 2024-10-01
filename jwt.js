@@ -6,14 +6,15 @@ dotenv.config();
 
 // JWT authentication middleware
 const jwtAuthMiddleware = (req, res, next) => {
+
     // Extract token from authorization header
-    const authHeader = req.headers.authorization;
+    const authorization = req.headers.authorization;
     
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ error: "Unauthorized: No token provided" });
+    if (!authorization || !authorization.startsWith('Bearer ')) {
+        return res.status(401).json({ error: "Token Not Found" });
     }
 
-    const token = authHeader.split(' ')[1]; // Extract the token after 'Bearer'
+    const token = authorization.split(' ')[1]; // Extract the token after 'Bearer'
 
     if (!token) {
         return res.status(401).json({ error: "Unauthorized: No token found" });

@@ -3,6 +3,24 @@ const router = express.Router();
 const Person = require('./../models/Person');
 const { jwtAuthMiddleware, generateToken } = require('../jwt')
 
+
+//Profile route\
+router.get('/profile', jwtAuthMiddleware, async(req, res) =>{
+  try {
+    const userData = req.user;
+    console.log('user Data: ',userData);
+
+    const userId = userData.id;
+    const user = await Person.findById(userId);
+
+    res.status(200).json({user});
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({error: "Internal Server Error"});
+  }
+})
+
 // POST /person (Add a new person)
 router.post('/', async (req, res) => {
   try {
@@ -12,8 +30,17 @@ router.post('/', async (req, res) => {
     const response = await newPerson.save();
     console.log('Person saved');
 
-    const token = generateToken(response.toObject());  // Generate token with person data
+    const payload = {
+      id: response.id,
+      username: response.username
+    }
+
+    const token = generateToken(response.toObject());  
+
+    console.log(JSON.stringify(payload));
+    // Generate token with person data
     console.log("Token is: ", token);
+  
 
     res.status(200).json({ response: response, token: token });
   } catch (error) {
@@ -21,6 +48,38 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+router.get('/login',async(req, res) =>{
+
+  try {
+    
+    const {username, password} = req.body;
+
+    //Find the user
+    const user = await Person.findOne({username: username});
+
+    if (!user || !(await user.comparePassword(password))) {
+      return res.status(401).json({error: 'Invalid username or password'});
+    }
+
+    //generate tokens
+    const payload = {
+      id : user.id,
+      username: user.username
+    }
+
+    const token = generateToken(payload);
+
+    res.json(token);
+    console.log("Token:", token);
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({error: 'Invalid Server Error'});
+  }
+
+});
+
 
 // GET /person (Fetch all persons)
 router.get('/', async (req, res) => {
