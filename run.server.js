@@ -4,6 +4,9 @@ const db = require("./db");
 const passport = require('./auth.js');
 const MenuItem = require('./models/MenuItem');
 const bodyParser = require('body-parser');
+
+
+
 app.use(bodyParser.json()); 
 // Middleware Function
 const logRequest = (req, res, next) => {
@@ -30,7 +33,7 @@ const menuItem = require('./routes/menuItemRoutes.js');
 app.use('/menuitems',menuItem); 
 
 const personRoutes = require('./routes/person.routes.js');
-app.use('/person',localAuthMiddleware, personRoutes); 
+app.use('/person', personRoutes); 
 
 // Listen on port 3000
 app.listen(3000, () => {
