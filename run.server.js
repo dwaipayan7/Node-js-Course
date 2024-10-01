@@ -27,7 +27,7 @@ app.get('/',localAuthMiddleware,  function (req, res) {
 
 // Menu item routes (handling menu-related endpoints)
 const menuItem = require('./routes/menuItemRoutes.js');
-app.use('/menuitems',localAuthMiddleware, menuItem); 
+app.use('/menuitems',menuItem); 
 
 const personRoutes = require('./routes/person.routes.js');
 app.use('/person',localAuthMiddleware, personRoutes); 
